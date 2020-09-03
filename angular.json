@@ -58,7 +58,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "app-test:build"
+            "browserTarget": "app-test:build",
+            "proxyConfig": "apps/app-test/proxy.conf.json"
           },
           "configurations": {
             "production": {
@@ -116,6 +117,251 @@
           "options": {
             "tsConfig": ["apps/app-test-e2e/tsconfig.e2e.json"],
             "exclude": ["**/node_modules/**", "!apps/app-test-e2e/**/*"]
+          }
+        }
+      }
+    },
+    "ts-shared": {
+      "root": "libs/ts-shared",
+      "sourceRoot": "libs/ts-shared/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/ts-shared/tsconfig.lib.json",
+              "libs/ts-shared/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/ts-shared/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/ts-shared/jest.config.js",
+            "tsConfig": "libs/ts-shared/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "ng-shared": {
+      "projectType": "library",
+      "root": "libs/ng-shared",
+      "sourceRoot": "libs/ng-shared/src",
+      "prefix": "nxtest",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/ng-shared/tsconfig.lib.json",
+              "libs/ng-shared/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/ng-shared/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/ng-shared/jest.config.js",
+            "tsConfig": "libs/ng-shared/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/ng-shared/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {}
+    },
+    "ng-feature": {
+      "projectType": "library",
+      "root": "libs/ng-feature",
+      "sourceRoot": "libs/ng-feature/src",
+      "prefix": "nxtest",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/ng-feature/tsconfig.lib.json",
+              "libs/ng-feature/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/ng-feature/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/ng-feature/jest.config.js",
+            "tsConfig": "libs/ng-feature/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/ng-feature/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {}
+    },
+    "bff-test": {
+      "root": "apps/bff-test",
+      "sourceRoot": "apps/bff-test/src",
+      "projectType": "application",
+      "prefix": "bff-test",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@nrwl/node:build",
+          "options": {
+            "outputPath": "dist/apps/bff-test",
+            "main": "apps/bff-test/src/main.ts",
+            "tsConfig": "apps/bff-test/tsconfig.app.json",
+            "assets": [
+              "apps/bff-test/src/assets",
+              {
+                "input": "libs/schema/src/gql",
+                "glob": "**/*.gql",
+                "output": "./gql/"
+              }
+            ]
+          },
+          "configurations": {
+            "production": {
+              "externalDependencies": "none",
+              "sourceMap": false,
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/bff-test/src/environments/environment.ts",
+                  "with": "apps/bff-test/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "bff-test:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/bff-test/tsconfig.app.json",
+              "apps/bff-test/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/bff-test/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/bff-test/jest.config.js",
+            "tsConfig": "apps/bff-test/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "schema": {
+      "root": "libs/schema",
+      "sourceRoot": "libs/schema/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": ["node ../../node_modules/@graphql-codegen/cli/bin.js"],
+            "cwd": "libs/schema",
+            "parallel": false
+          }
+        }
+      }
+    },
+    "nest-bff": {
+      "root": "apps/nest-bff",
+      "sourceRoot": "apps/nest-bff/src",
+      "projectType": "application",
+      "prefix": "nest-bff",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@nrwl/node:build",
+          "options": {
+            "outputPath": "dist/apps/nest-bff",
+            "main": "apps/nest-bff/src/main.ts",
+            "tsConfig": "apps/nest-bff/tsconfig.app.json",
+            "assets": ["apps/nest-bff/src/assets"]
+          },
+          "configurations": {
+            "production": {
+              "externalDependencies": "none",
+              "sourceMap": false,
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/nest-bff/src/environments/environment.ts",
+                  "with": "apps/nest-bff/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "nest-bff:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/nest-bff/tsconfig.app.json",
+              "apps/nest-bff/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/nest-bff/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/nest-bff/jest.config.js",
+            "tsConfig": "apps/nest-bff/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "bff-shared": {
+      "root": "libs/bff-shared",
+      "sourceRoot": "libs/bff-shared/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/bff-shared/tsconfig.lib.json",
+              "libs/bff-shared/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/bff-shared/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/bff-shared/jest.config.js",
+            "tsConfig": "libs/bff-shared/tsconfig.spec.json",
+            "passWithNoTests": true
           }
         }
       }

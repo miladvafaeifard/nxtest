@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../dist/out-tsc",
+    "types": ["node", "express"]
+  },
+  "exclude": ["**/*.spec.ts"],
+  "include": [
+    "**/*.ts",
+    "../../libs/schema/**/*.d.ts",
+    "../../libs/schema/**/*.ts",
+    "../../libs/schema/**/*.graphql"
+  ]
+}

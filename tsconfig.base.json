@@ -15,7 +15,14 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@nxtest/ts-shared": ["libs/ts-shared/src/index.ts"],
+      "@nxtest/ng-shared": ["libs/ng-shared/src/index.ts"],
+      "@nxtest/ng-feature": ["libs/ng-feature/src/index.ts"],
+      "@nxtest/schema": ["libs/schema/src/index.ts"],
+      "@nxtest/schema/*": ["libs/schema/*"],
+      "@nxtest/bff-shared": ["libs/bff-shared/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

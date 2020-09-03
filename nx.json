@@ -28,6 +28,27 @@
     "app-test-e2e": {
       "tags": [],
       "implicitDependencies": ["app-test"]
+    },
+    "ts-shared": {
+      "tags": []
+    },
+    "ng-shared": {
+      "tags": []
+    },
+    "ng-feature": {
+      "tags": []
+    },
+    "bff-test": {
+      "tags": []
+    },
+    "schema": {
+      "tags": []
+    },
+    "nest-bff": {
+      "tags": []
+    },
+    "bff-shared": {
+      "tags": []
     }
   }
 }

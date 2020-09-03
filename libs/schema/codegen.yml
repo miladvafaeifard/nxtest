@@ -1,0 +1,14 @@
+overwrite: true
+config:
+  immutableTypes: true
+  useIndexSignature: true
+  noSchemaStitching: true
+  overwrite: true
+
+generates:
+  ./types/test.d.ts:
+    schema:
+      - src/gql/test.gql
+    plugins:
+      - typescript
+      - typescript-resolvers
