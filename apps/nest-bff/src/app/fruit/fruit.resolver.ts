@@ -19,7 +19,7 @@ export class FruitResolver {
   }
 
   @ResolveField('color', returns => Color)
-  async color(@Parent() fruit: Fruit) {
-    return this.colorService.findOneById(fruit.id);
+  async color(@Parent() fruit: any) {
+    return this.colorService.findOneById(fruit.colorId);
   }
 }
