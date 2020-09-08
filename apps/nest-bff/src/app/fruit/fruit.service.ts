@@ -23,7 +23,7 @@ const fruits = [{
 }, {
   id: '5',
   name: `${bffShared()} fruit`,
-  colorId: '5'
+  colorId: '4'
 }];
 
 

@@ -15,5 +15,5 @@ const server = new ApolloServer({
 server.applyMiddleware({ app, path: '/api' });
 app.use(helmet());
 app.listen({ port: 3000 }, () => {
-  console.log(`\n 🚀 GraphQL is now running on http://localhost:3000/api`);
+  console.log(`\n 🚀 GraphQL is now running on http://localhost:3000/api, Yey!`);
 });
